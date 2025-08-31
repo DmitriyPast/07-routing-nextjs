@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Note, NoteFormValues } from "../types/note";
+import type { Note, NoteFormValues, NoteTag } from "../types/note";
 
 // const myKey = import.meta.env.VITE_TMDB_TOKEN;
 const ApiKey = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
@@ -17,16 +17,17 @@ const url = "https://notehub-public.goit.study/api/notes/";
 export async function fetchNotes(
     search: string,
     page: number,
-    perPage?: number
+    perPage?: number,
+    tag?: string// = "Todo"
 ): Promise<FetchNotesResponse> {
-    const res = await axios.get<FetchNotesResponse>(url, {
+    return (await axios.get<FetchNotesResponse>(url, {
         params: {
             search,
             page,
             perPage,
+            tag,
         },
-    });
-    return res.data;
+    })).data;
 }
 
 export async function createNote(formData: NoteFormValues): Promise<Note> {

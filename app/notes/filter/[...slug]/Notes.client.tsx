@@ -14,21 +14,33 @@ import SearchBox from "@/components/SearchBox/SearchBox";
 import type { FetchNotesResponse } from "@/lib/api";
 
 interface NotesClientProps {
-    initSearch: string,
-    initPage: number,
+    // initSearch: string,
+    // initPage: number,
+    // tag: string
+
+    // searchParams: (string | number)[],
+    searchParams: {
+        name: string,
+        search: string,
+        initPage: number,
+        perPage?: number,
+        tag?: string
+    },
+    // queryFn: () => {}
 }
 
-export default function NotesClient({ initSearch, initPage }: NotesClientProps) {
+export default function NotesClient({ searchParams: { name, search, initPage, perPage, tag } }: NotesClientProps) {
     const [page, setPage] = useState<number>(initPage);
-    const [query, setQuery] = useState<string>(initSearch);
+    const [query, setQuery] = useState<string>(search);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const [queryDebounced] = useDebounce(query, 1000);
 
     const { data, isLoading, isError, isSuccess } = useQuery({
-        queryKey: ["notes", queryDebounced, page],
-        queryFn: () => fetchNotes(queryDebounced, page, 12),
+        queryKey: [name, queryDebounced, page, tag],
+        queryFn: () => fetchNotes(queryDebounced, page, perPage, tag),
         placeholderData: keepPreviousData,
+        refetchOnMount: false
     });
     const firstUpdate = useRef(true);
     useEffect(() => {
