@@ -6,7 +6,7 @@ export default function Sidebar() {
         <ul className={css.menuList}>
             {/* список тегів */}
             {TAGS.map((tag) =>
-                <li className={css.menuItem}>
+                <li key={tag} className={css.menuItem}>
                     <a href={`/notes/filter/${tag}`} className={css.menuLink}>
                         {tag}
                     </a>
