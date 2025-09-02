@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import css from "./TagsMenu.module.css";
+import Link from "next/link";
 
 export const TAGS = [
     "All",
@@ -23,10 +24,10 @@ export default function TagsMenu() {
                 <ul className={css.menuList}>
                     {/* список тегів */}
                     {TAGS.map((tag) =>
-                        <li key={tag} className={css.menuItem}>
-                            <a href={`/notes/filter/${tag}`} className={css.menuLink}>
+                        <li key={tag} onClick={() => setToggle(!toggle)} className={css.menuItem}>
+                            <Link href={`/notes/filter/${tag}`} className={css.menuLink}>
                                 {tag}
-                            </a>
+                            </Link>
                         </li>)}
                 </ul>}
         </div>

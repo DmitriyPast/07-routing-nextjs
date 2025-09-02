@@ -1,4 +1,4 @@
-import { dehydrate, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import NotesClient from "./Notes.client"
 import { fetchNotes } from "@/lib/api";
 import type { FetchNotesResponse } from "@/lib/api";
@@ -8,13 +8,9 @@ type Props = {
 };
 
 export default async function Notes({ params }: Props) {
-    // const perPage = 12;
-    // const page = 1;
-    // const search = "";
-    const qc: QueryClient = new QueryClient()
-    let qf = () => fetchNotes(search, initPage, perPage);
-
     const { slug } = await params;
+    // console.log(slug);
+    const qc: QueryClient = new QueryClient()
     const qp = {
         name: "notes",
         search: "",
@@ -23,15 +19,7 @@ export default async function Notes({ params }: Props) {
         tag: slug[0] === "All" ? undefined : slug[0]
     };
     const { name, search, initPage, perPage, tag } = qp
-    const qk = [search, initPage, perPage];
 
-    console.log(slug);
-    if (slug[0] && slug[0] !== "All") {
-        qk.push(slug[0])
-        qf = () => fetchNotes(search, initPage, perPage, tag);
-    }
-
-    // const data: FetchNotesResponse = await fetchNotes(search, page, perPage)
     await qc.prefetchQuery({
         queryKey: [name, search, initPage, tag],
         queryFn: () => fetchNotes(search, initPage, perPage, tag)

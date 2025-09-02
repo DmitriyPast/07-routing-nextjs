@@ -4,10 +4,7 @@ import { getSingleNote } from '@/lib/api';
 import Modal from '@/components/Modal/Modal';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-
-type Props = {
-    params: Promise<{ id: string }>;
-};
+import css from './NotePreview.module.css'
 
 export default function NotePreviewClient() {
     // const { id } = await params;
@@ -22,10 +19,25 @@ export default function NotePreviewClient() {
     });
     if (isLoading) return <Modal><p>is Loading...</p></Modal>;
     if (error || !note) return <Modal><p>is error loading note</p></Modal>;
+    const formattedDate = note.updatedAt !== note.createdAt
+        ? `Updated at: ${note.updatedAt}`
+        : `Created at: ${note.createdAt}`;
     return (
         <Modal onClose={() => router.back()}>
-            <h2>{note.title}</h2>
-            <p>{note.content}</p>
+
+            <div className={css.container}>
+                <div className={css.item}>
+                    <div className={css.header}>
+                        <h2>{note.title}</h2>
+                    </div>
+                    <p className={css.content}>{note.content}</p>
+                    <p className={css.date}>{formattedDate}</p>
+                    <button onClick={() => router.back()} className={css.backBtn}>
+                        Go back
+                    </button>
+
+                </div>
+            </div>
         </Modal>
     );
 };

@@ -1,13 +1,7 @@
-// export default async function Modal() {
-//     return (
-//         <>null</>
-//     )
-// }
-// app/@modal/(.)notes/[id]/page.tsx
 import { getSingleNote } from '@/lib/api';
-import Modal from '@/components/Modal/Modal';
-// import { useParams, useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
+import NotePreviewClient from './NotePreview.client';
+
 
 type Props = {
     params: Promise<{ id: string }>;
@@ -30,8 +24,3 @@ export default async function NotePreview({ params }: Props) {
     )
 }
 
-
-import { dehydrate, HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { fetchNotes } from "@/lib/api";
-import type { FetchNotesResponse } from "@/lib/api";
-import NotePreviewClient from './NotePreview.client';

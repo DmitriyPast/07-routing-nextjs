@@ -4,6 +4,7 @@
 //         <>fuck you</>)
 // }
 // import { TAGS } from '@/components/TagsMenu/TagsMenu'
+import Link from 'next/link'
 import css from './page.module.css'
 
 export const TAGS = [
@@ -21,9 +22,9 @@ export default function Sidebar() {
             {/* список тегів */}
             {TAGS.map((tag) =>
                 <li key={tag} className={css.menuItem}>
-                    <a href={`/notes/filter/${tag}`} className={css.menuLink}>
+                    <Link href={`/notes/filter/${tag}`} className={css.menuLink}>
                         {tag}
-                    </a>
+                    </Link>
                 </li>)}
         </ul>
     )
